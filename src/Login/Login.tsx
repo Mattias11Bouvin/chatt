@@ -1,126 +1,189 @@
-import React, { useReducer, useEffect } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { useReducer, useEffect, useState } from "react";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { auth, db } from "../DB/firebase";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+
+import TextField from "@material-ui/core/TextField";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import CardHeader from "@material-ui/core/CardHeader";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      display: 'flex',
-      flexWrap: 'wrap',
+      display: "flex",
+      flexWrap: "wrap",
       width: 400,
-      margin: `${theme.spacing(0)} auto`
+      margin: `${theme.spacing(0)} auto`,
     },
     loginBtn: {
       marginTop: theme.spacing(2),
-      flexGrow: 1
+      flexGrow: 1,
     },
     header: {
-      textAlign: 'center',
-      background: '#212121',
-      color: '#fff'
+      textAlign: "center",
+      background: "#212121",
+      color: "#fff",
     },
     card: {
-      marginTop: theme.spacing(10)
-    }
+      marginTop: theme.spacing(10),
+    },
   })
 );
 
 //state type
 
 type State = {
-  username: string
-  password:  string
-  isButtonDisabled: boolean
-  helperText: string
-  isError: boolean
+  username: string;
+  password: string;
+  isButtonDisabled: boolean;
+  helperText: string;
+  isError: boolean;
 };
 
-const initialState:State = {
-  username: '',
-  password: '',
+const initialState: State = {
+  username: "",
+  password: "",
   isButtonDisabled: true,
-  helperText: '',
-  isError: false
+  helperText: "",
+  isError: false,
 };
 
-type Action = { type: 'setUsername', payload: string }
-  | { type: 'setPassword', payload: string }
-  | { type: 'setIsButtonDisabled', payload: boolean }
-  | { type: 'loginSuccess', payload: string }
-  | { type: 'loginFailed', payload: string }
-  | { type: 'setIsError', payload: boolean };
+type Action =
+  | { type: "setUsername"; payload: string }
+  | { type: "setPassword"; payload: string }
+  | { type: "setIsButtonDisabled"; payload: boolean }
+  | { type: "loginSuccess"; payload: string }
+  | { type: "loginFailed"; payload: string }
+  | { type: "setIsError"; payload: boolean };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'setUsername': 
+    case "setUsername":
       return {
         ...state,
-        username: action.payload
+        username: action.payload,
       };
-    case 'setPassword': 
+    case "setPassword":
       return {
         ...state,
-        password: action.payload
+        password: action.payload,
       };
-    case 'setIsButtonDisabled': 
+    case "setIsButtonDisabled":
       return {
         ...state,
-        isButtonDisabled: action.payload
+        isButtonDisabled: action.payload,
       };
-    case 'loginSuccess': 
+    case "loginSuccess":
       return {
         ...state,
         helperText: action.payload,
-        isError: false
+        isError: false,
       };
-    case 'loginFailed': 
+    case "loginFailed":
       return {
         ...state,
         helperText: action.payload,
-        isError: true
+        isError: true,
       };
-    case 'setIsError': 
+    case "setIsError":
       return {
         ...state,
-        isError: action.payload
+        isError: action.payload,
       };
   }
-}
+};
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (state.username.trim() && state.password.trim()) {
-     dispatch({
-       type: 'setIsButtonDisabled',
-       payload: false
-     });
+      dispatch({
+        type: "setIsButtonDisabled",
+        payload: false,
+      });
     } else {
       dispatch({
-        type: 'setIsButtonDisabled',
-        payload: true
+        type: "setIsButtonDisabled",
+        payload: true,
       });
     }
   }, [state.username, state.password]);
 
-  const handleLogin = () => {
-    if (state.username === 'abc@email.com' && state.password === 'password') {
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  const handleLogin = async () => {
+    try {
+      // Försök att logga in användaren
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        state.username,
+        state.password
+      );
+
       dispatch({
-        type: 'loginSuccess',
-        payload: 'Login Successfully'
+        type: "loginSuccess",
+        payload: "Login Successfully",
       });
-    } else {
+
+      navigate("/Chat");
+    } catch (error) {
+      // Hantera eventuella andra fel som uppstår vid inloggning
       dispatch({
-        type: 'loginFailed',
-        payload: 'Incorrect username or password'
+        type: "loginFailed",
+        payload: "Failed to login",
+      });
+    }
+  };
+
+  const handleSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        state.username,
+        state.password
+      );
+
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        email: state.username,
+        uid: userCredential.user.uid,
+      });
+
+      dispatch({
+        type: "loginSuccess",
+        payload: "Account created Successfully, you can now Login.",
+      });
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: "loginFailed",
+        payload: "Failed to create account",
       });
     }
   };
@@ -131,21 +194,23 @@ const Login = () => {
     }
   };
 
-  const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> =
-    (event) => {
-      dispatch({
-        type: 'setUsername',
-        payload: event.target.value
-      });
-    };
+  const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    dispatch({
+      type: "setUsername",
+      payload: event.target.value,
+    });
+  };
 
-  const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> =
-    (event) => {
-      dispatch({
-        type: 'setPassword',
-        payload: event.target.value
-      });
-    }
+  const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    dispatch({
+      type: "setPassword",
+      payload: event.target.value,
+    });
+  };
   return (
     <form className={classes.container} noValidate autoComplete="off">
       <Card className={classes.card}>
@@ -167,13 +232,29 @@ const Login = () => {
               error={state.isError}
               fullWidth
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               label="Password"
               placeholder="Password"
               margin="normal"
               helperText={state.helperText}
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
+              InputProps={{
+                // <- This is where the toggle button is added
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                      />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </div>
         </CardContent>
@@ -184,13 +265,24 @@ const Login = () => {
             color="secondary"
             className={classes.loginBtn}
             onClick={handleLogin}
-            disabled={state.isButtonDisabled}>
+            disabled={state.isButtonDisabled}
+          >
             Login
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            className={classes.loginBtn}
+            onClick={handleSignUp}
+            disabled={state.isButtonDisabled}
+          >
+            Sign Up
           </Button>
         </CardActions>
       </Card>
     </form>
   );
-}
+};
 
 export default Login;
