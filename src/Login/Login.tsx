@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useState } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -20,31 +20,28 @@ import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: "flex",
-      flexWrap: "wrap",
-      width: 400,
-      margin: `${theme.spacing(0)} auto`,
-    },
-    loginBtn: {
-      marginTop: theme.spacing(2),
-      flexGrow: 1,
-    },
-    header: {
-      textAlign: "center",
-      background: "#212121",
-      color: "#fff",
-    },
-    card: {
-      marginTop: theme.spacing(10),
-    },
-  })
-);
+const useStyles = makeStyles(() => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+    width: 400,
+    margin: "0 auto",
+  },
+  loginBtn: {
+    marginTop: "1rem",
+    flexGrow: 1,
+  },
+  header: {
+    textAlign: "center",
+    background: "#212121",
+    color: "#fff",
+  },
+  card: {
+    marginTop: "5rem",
+  },
+}));
 
-//state type
-
+// state type
 type State = {
   username: string;
   password: string;
@@ -103,6 +100,8 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         isError: action.payload,
       };
+    default:
+      return state;
   }
 };
 
@@ -138,7 +137,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      // Försök att logga in användaren
+      // Attempt to log in the user
       const userCredential = await signInWithEmailAndPassword(
         auth,
         state.username,
@@ -152,7 +151,7 @@ const Login = () => {
 
       navigate("/Chat");
     } catch (error) {
-      // Hantera eventuella andra fel som uppstår vid inloggning
+      // Handle any other errors that occur during login
       dispatch({
         type: "loginFailed",
         payload: "Failed to login",
@@ -211,6 +210,7 @@ const Login = () => {
       payload: event.target.value,
     });
   };
+
   return (
     <form className={classes.container} noValidate autoComplete="off">
       <Card className={classes.card}>
@@ -240,7 +240,6 @@ const Login = () => {
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
               InputProps={{
-                // <- This is where the toggle button is added
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
