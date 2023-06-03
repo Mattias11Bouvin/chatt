@@ -8,7 +8,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Chat" element={<Chat />} /> 
-        {/* You might have other routes here */}
       </Routes>
     </Router>
   );

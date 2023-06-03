@@ -26,6 +26,9 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
     width: 400,
     margin: "0 auto",
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh'
   },
   loginBtn: {
     marginTop: "1rem",
