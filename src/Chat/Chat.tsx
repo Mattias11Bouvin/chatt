@@ -11,6 +11,7 @@ const Chat = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [channels, setChannels] = useState([]);
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -43,14 +44,19 @@ const Chat = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const handleAddChannel = (channelName) => {
+    // Lägg till den nya kanalen till kanallistan
+    setChannels((prevChannels) => [...prevChannels, channelName]);
+  };
+
   //...
   return (
     <div className="chat-container">
       <div className="user-list">
         <h1>Welcome, {userEmail}</h1>
-        <Channels />
+        <Channels channels={[]} onAddChannel={handleAddChannel} />
         <div onClick={handleDropdownToggle} className="dropdown-toggle">
-          <h2>Direct messages {isDropdownOpen ? "▲" : "▼"}</h2>
+          <p className="dm">Direct messages {isDropdownOpen ? "▲" : "▼"}</p>
         </div>
         {isDropdownOpen && (
           <ul>

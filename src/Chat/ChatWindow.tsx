@@ -93,7 +93,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
       let loadedMessages = [];
       snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
-        loadedMessages.push(data);
+        loadedMessages.push({ ...data, id: childSnapshot.key });
       });
       setMessages(loadedMessages);
     });
@@ -117,7 +117,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
       const db = getDatabase();
       const messagesRef = ref(db, "messages");
       const newMessageRef = push(messagesRef); // Generate a new unique ID
-      await set(newMessageRef, newMessage); // Save the new message with the generated ID
+      await set(newMessageRef, { ...newMessage, id: newMessageRef.key }); // Save the new message with the generated ID
       setMessage("");
     } catch (e) {
       console.error("Error adding document: ", e);

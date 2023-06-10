@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   dropdownContainer: {
@@ -16,7 +23,6 @@ const useStyles = makeStyles({
     position: "absolute",
     top: "100%",
     left: 0,
-    backgroundColor: "#fff",
     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
     zIndex: 1,
     minWidth: "200px",
@@ -31,6 +37,9 @@ const useStyles = makeStyles({
     alignItems: "center",
     padding: "10px",
     cursor: "pointer",
+    position: "absolute",
+    bottom: "21px",
+    left: "106px",
   },
   addChannelIcon: {
     marginRight: "5px",
@@ -39,22 +48,29 @@ const useStyles = makeStyles({
 
 interface ChannelsProps {
   channels: string[];
-  onAddChannel: (channelName: string) => void; // Nytt prop för att hantera tillägg av kanal
+  onAddChannel: (channelName: string) => void;
 }
 
 const Channels: React.FC<ChannelsProps> = ({ channels, onAddChannel }) => {
   const classes = useStyles();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [newChannelName, setNewChannelName] = useState("");
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleAddChannel = () => {
-    const channelName = prompt("Enter channel name"); // Prompt användaren att ange kanalnamnet
-    if (channelName) {
-      onAddChannel(channelName); // Anropa onAddChannel-funktionen från förälderkomponenten
+  const handleAddChannelClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    if (newChannelName) {
+      onAddChannel(newChannelName);
     }
+    setOpen(false);
+    setNewChannelName("");
   };
 
   return (
@@ -69,10 +85,39 @@ const Channels: React.FC<ChannelsProps> = ({ channels, onAddChannel }) => {
               <div key={index}>{channel}</div>
             ))}
           </div>
-          <div className={classes.addChannel} onClick={handleAddChannel}>
+          <div className={classes.addChannel} onClick={handleAddChannelClick}>
             <AddCircleIcon className={classes.addChannelIcon} />
-            Add Channel
           </div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">Add a new channel</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Please enter the name of the new channel.
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Channel Name"
+                type="text"
+                fullWidth
+                value={newChannelName}
+                onChange={(event) => setNewChannelName(event.target.value)}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleClose} color="primary">
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       )}
     </div>
