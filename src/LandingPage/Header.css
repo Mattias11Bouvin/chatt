@@ -10,10 +10,10 @@ nav ul {
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 nav ul li {
+  margin: 30px;
 }
 
 nav ul li a {
@@ -56,6 +56,9 @@ nav ul li a {
 
 nav ul li button#srch {
   margin-left: auto;
+  position: relative;
+  left: 181px;
+  margin-right: 150px;
 }
 
 input {
@@ -106,6 +109,7 @@ img {
   width: 170px;
   height: 56px;
   border-radius: 10px;
+  margin-right: 10px;
 }
 
 .us {
@@ -121,15 +125,19 @@ img {
   color: white;
   font-family: Slack-Circular-Pro, "Helvetica Neue", Helvetica, "Segoe UI",
     Tahoma, Arial, sans-serif;
+      margin-right: 50px;
 }
 
 #srch {
   background-color: transparent !important;
+  
 }
 
 .hp {
   position: relative;
   bottom: 61px;
+  font-size: 1.25rem;
+  letter-spacing: initial;
 }
 
 .h1p {
@@ -139,28 +147,39 @@ img {
 }
 
 .discount-button {
-    background-color: #4a154b;
-    color: white;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-  
-  .google-signup-button {
-    background-color: white;
-    color: #4a154b;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-  
+  background-color: white;
+  color: #4a154b;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.google-signup-button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.hbtn {
+  position: relative;
+  bottom: 70px;
+}
+
+.slack {
+  position: relative;
+  bottom: 60px;
+  letter-spacing: initial;
+}

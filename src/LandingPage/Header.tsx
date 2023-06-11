@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, GoogleAuthProvider, signInWithPopup } from "../DB/firebase";
+import Navbar from "./Nav";
 
 import logo from "./assets/slack.png";
 import "./Header.css";
+import HeroSlider from "./Slider";
 
 const Header: React.FC = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -32,50 +34,13 @@ const Header: React.FC = () => {
 
   return (
     <header>
-      <nav>
-        <ul>
-          <li>
-            <img src={logo} alt="Logo" />
-          </li>
-          <li>
-            <div className="dropdown">
-              <a href="#">Product &#9662;</a>
-              <div className="dropdown-content">
-                <a href="#">Features</a>
-                <a href="#">Channels</a>
-                <a href="#">Integrations</a>
-                <a href="#">Security</a>
-                <a href="#">Slack connect</a>
-                <a href="#">Customers</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <a href="#">Pricing</a>
-          </li>
-          <li>
-            <a href="#">Support</a>
-          </li>
-          <li>
-            <button id="srch" onClick={() => setShowSearch(!showSearch)}>
-              &#128269;
-            </button>
-            {showSearch && (
-              <div style={{ position: "relative" }}>
-                <input type="text" placeholder="Search..." />
-                <div className="x" onClick={() => setShowSearch(false)}>
-                  X
-                </div>
-              </div>
-            )}
-          </li>
-          <Link className="sign" to="/login">
-            Sign in
-          </Link>
-          <button className="free">Try for free</button>
-          <button className="us">Talk to us</button>
-        </ul>
-      </nav>
+      <Navbar
+        logo={logo}
+        showSearch={showSearch}
+        setShowSearch={setShowSearch}
+      />
+      {/*<HeroSlider /> */}
+
       <div className="header-content">
         <h1>Made for people.</h1>
         <h1 className="h1p">Built for productivity.</h1>
@@ -83,10 +48,13 @@ const Header: React.FC = () => {
           Connect the right people, find anything you need and automate<br></br>{" "}
           the rest. That’s work in Slack, your productivity platform.
         </p>
-        <button className="discount-button">Get 50% off</button>
-        <button className="google-signup-button" onClick={handleGoogleSignup}>
-          Sign up with Google
-        </button>
+        <div className="hbtn">
+          <button className="discount-button">Get 50% off</button>
+          <button className="google-signup-button" onClick={handleGoogleSignup}>
+            Sign up with Google
+          </button>
+        </div>
+        <p className="slack">Slack is free to try for as long as you’d like</p>
       </div>
     </header>
   );
