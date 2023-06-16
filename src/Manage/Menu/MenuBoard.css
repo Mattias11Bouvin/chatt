@@ -1,0 +1,31 @@
+.menu-board {
+    background-color: #f6f6f6;
+    padding: 10px;
+    border-radius: 4px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .menu-item {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  
+  .menu-item:hover {
+    background-color: #ccc;
+  }
+  
+  .menu-item:first-child {
+    font-weight: bold;
+  }
+  

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { auth, db } from "../DB/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import ChatWindow from "./ChatWindow";
 import Channels from "../Channel/Channels";
 import "./chat.css";
+import TaskBoard from "../Manage/TaskBoard";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -55,6 +57,9 @@ const Chat = () => {
       <div className="user-list">
         <h1>Welcome, {userEmail}</h1>
         <Channels channels={[]} onAddChannel={handleAddChannel} />
+        <Link to="/Taskboard">
+          <button>Taskboard</button>
+        </Link>
         <div onClick={handleDropdownToggle} className="dropdown-toggle">
           <p className="dm">Direct messages {isDropdownOpen ? "▲" : "▼"}</p>
         </div>

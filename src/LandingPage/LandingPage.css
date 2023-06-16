@@ -26,6 +26,21 @@ section {
   padding: 20px;
 }
 
+.section-right,
+.section-left {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .section-right {
+    text-align: right;
+  }
+
+  .section-left {
+    text-align: left;
+  }
+}
+
 h2 {
   font-family: Slack-Larsseit, "Helvetica Neue", Helvetica, "Segoe UI", Tahoma,
     Arial, sans-serif;
