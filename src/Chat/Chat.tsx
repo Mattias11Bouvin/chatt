@@ -4,8 +4,8 @@ import { auth, db } from "../DB/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import ChatWindow from "./ChatWindow";
 import Channels from "../Channel/Channels";
-import "./chat.css";
-import TaskBoard from "../Manage/TaskBoard";
+import "./Chat.css";
+import { FaComments, FaTasks } from "react-icons/fa";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -14,6 +14,7 @@ const Chat = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [channels, setChannels] = useState([]);
+  const [showChatList, setShowChatList] = useState(false);
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -57,14 +58,31 @@ const Chat = () => {
       <div className="user-list">
         <h1>Welcome, {userEmail}</h1>
         <Channels channels={[]} onAddChannel={handleAddChannel} />
-        <Link to="/Taskboard">
-          <button>Taskboard</button>
+        <Link
+          to="/Taskboard"
+          style={{
+            color: "white",
+            position: "absolute",
+            top: "180px",
+            fontSize: "30px",
+          }}
+        >
+          <FaTasks className="task-icon" />
         </Link>
-        <div onClick={handleDropdownToggle} className="dropdown-toggle">
-          <p className="dm">Direct messages {isDropdownOpen ? "▲" : "▼"}</p>
-        </div>
+
+        <FaComments
+          style={{
+            color: "white",
+            position: "absolute",
+            top: "220px",
+            fontSize: "30px",
+            cursor: 'pointer'
+          }}
+          onClick={handleDropdownToggle}
+        />
+
         {isDropdownOpen && (
-          <ul>
+          <ul className={`chat-list ${selectedUser ? 'hidden' : ''}`}>
             {users.map((user, index) => (
               <li className="user-list-item" key={index}>
                 <div

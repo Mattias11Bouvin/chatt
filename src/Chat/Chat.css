@@ -13,8 +13,8 @@ body {
   background-color: #350d36;
   color: #ffffff;
   border-right: 1px solid #4d394b;
-  width: 250px;
   padding: 20px;
+  width: 60px!important;
   overflow-y: auto;
 }
 
@@ -59,13 +59,59 @@ body {
   color: white;
 }
 
-.chat-window-container {
+/*.chat-window-container {
   flex: 1;
   padding: 10px;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
+}*/
+
+.user-list {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
+
+.user-list h1 {
+  margin-bottom: 20px;
+}
+
+.task-icon {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.chat-icon {
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+  position: absolute!important;
+  top: 180px!important;
+}
+
+.chat-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.user-list-item {
+  margin-bottom: 10px;
+}
+
+.user-email {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.user-email:hover {
+  background-color: #555;
+}
+
+/* Anpassa dessa regler efter dina behov */
+
 
 #messages {
   flex: 1;
@@ -106,4 +152,20 @@ body {
 .message-input button:hover {
   background-color: #008cba;
   color: white;
+}
+
+
+.myLink a {
+  color: white!important;
+}
+
+
+.chat-list {
+ position: absolute;
+ left: 10%;
+ color: black!important;
+ border: 1px solid #e0e0e0;
+}
+.hidden {
+  display: none;
 }

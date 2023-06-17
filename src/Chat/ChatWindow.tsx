@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getDatabase, ref, onValue, push, set } from "firebase/database";
-
 import { makeStyles } from "@material-ui/core/styles";
+import Picker from "emoji-picker-react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,6 +85,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [showEmojis, setShowEmojis] = useState(false);
   const messagesEndRef = useRef(null);
   useEffect(() => {
     const db = getDatabase();
@@ -119,9 +120,15 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
       const newMessageRef = push(messagesRef); // Generate a new unique ID
       await set(newMessageRef, { ...newMessage, id: newMessageRef.key }); // Save the new message with the generated ID
       setMessage("");
+      setShowEmojis(false); // Dölj emoji-pickern när ett meddelande skickas
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  };
+
+  const addEmoji = (emojiObject) => {
+    const emoji = emojiObject.emoji;
+    setMessage((prevMessage) => prevMessage + emoji);
   };
 
   const formatTimestamp = (timestamp) => {
@@ -152,7 +159,6 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
             <span>{formatTimestamp(msg.timestamp)}</span>
           </div>
         ))}
-
         <div ref={messagesEndRef} />
       </div>
       <div className={classes.inputArea}>
@@ -170,6 +176,11 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
         >
           Send
         </button>
+        {showEmojis ? (
+          <Picker onEmojiClick={addEmoji} />
+        ) : (
+          <button onClick={() => setShowEmojis(true)}>😀</button>
+        )}
       </div>
       <button className={classes.closeButton} onClick={onClose}>
         Close Chat

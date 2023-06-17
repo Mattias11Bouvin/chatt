@@ -8,29 +8,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { FaHashtag } from "react-icons/fa";
 
 const useStyles = makeStyles({
   dropdownContainer: {
     position: "relative",
-  },
-  dropdownToggle: {
-    display: "flex",
-    alignItems: "center",
-    padding: "10px",
-    cursor: "pointer",
-  },
-  dropdownContent: {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
-    zIndex: 1,
-    minWidth: "200px",
-  },
-  channelList: {
-    maxHeight: "200px",
-    overflowY: "auto",
-    padding: "10px",
   },
   addChannel: {
     display: "flex",
@@ -38,8 +20,6 @@ const useStyles = makeStyles({
     padding: "10px",
     cursor: "pointer",
     position: "absolute",
-    bottom: "21px",
-    left: "106px",
   },
   addChannelIcon: {
     marginRight: "5px",
@@ -53,13 +33,8 @@ interface ChannelsProps {
 
 const Channels: React.FC<ChannelsProps> = ({ channels, onAddChannel }) => {
   const classes = useStyles();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [newChannelName, setNewChannelName] = useState("");
-
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
   const handleAddChannelClick = () => {
     setOpen(true);
@@ -75,51 +50,39 @@ const Channels: React.FC<ChannelsProps> = ({ channels, onAddChannel }) => {
 
   return (
     <div className={classes.dropdownContainer}>
-      <div className={classes.dropdownToggle} onClick={handleDropdownToggle}>
-        Channels {isDropdownOpen ? "▲" : "▼"}
+      <div className={classes.addChannel} onClick={handleAddChannelClick}>
+        <FaHashtag className={classes.addChannelIcon} />
       </div>
-      {isDropdownOpen && (
-        <div className={classes.dropdownContent}>
-          <div className={classes.channelList}>
-            {channels.map((channel, index) => (
-              <div key={index}>{channel}</div>
-            ))}
-          </div>
-          <div className={classes.addChannel} onClick={handleAddChannelClick}>
-            <AddCircleIcon className={classes.addChannelIcon} />
-          </div>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Add a new channel</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please enter the name of the new channel.
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Channel Name"
-                type="text"
-                fullWidth
-                value={newChannelName}
-                onChange={(event) => setNewChannelName(event.target.value)}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={handleClose} color="primary">
-                Ok
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      )}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add a new channel</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter the name of the new channel.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Channel Name"
+            type="text"
+            fullWidth
+            value={newChannelName}
+            onChange={(event) => setNewChannelName(event.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

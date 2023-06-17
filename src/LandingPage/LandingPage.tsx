@@ -31,7 +31,7 @@ const LandingPage: React.FC = () => {
           <section className="section-right">
             <h2>Move faster with your tools in one place</h2>
             <p>
-              With your other work apps connected to Slack, you can work faster
+              With your other work apps cnpmonnected to Slack, you can work faster
               by switching tabs less. And with powerful tools like Workflow
               Builder, you can automate away routine tasks.
             </p>

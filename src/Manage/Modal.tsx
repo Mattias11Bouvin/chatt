@@ -6,6 +6,7 @@ import { addTicket } from "../DB/Ticket";
 const CreateTicketModal = ({ isOpen, onClose, onSubmit }) => {
   const [project, setProject] = useState("");
   const [issueType, setIssueType] = useState("");
+  const [statusType, setStatusType] = useState("");
   const [summary, setSummary] = useState("");
   const [components, setComponents] = useState("");
   const [description, setDescription] = useState("");
@@ -46,17 +47,30 @@ const CreateTicketModal = ({ isOpen, onClose, onSubmit }) => {
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} appElement={appElement}>
-      <h2 className="h2">Create JIRA Ticket</h2>
+      <h2 className="h2">Create Ticket</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="project">Project:</label>
-        <select
+        <input
+          type="text"
           id="project"
-          name="project"
           value={project}
           onChange={(e) => setProject(e.target.value)}
+        />
+
+        <label htmlFor="Status">Status:</label>
+        <select
+          id="Status"
+          name="Status"
+          value={issueType}
+          onChange={(e) => setStatusType(e.target.value)}
         >
-          <option value=""> ()</option>
-          {/* Add other project options */}
+          <option value="Backlog">Backlog</option>
+          <option value="Blocked">Blocked</option>
+          <option value="Indevelopment">In development</option>
+          <option value="DevelopmentDone">Development done</option>
+          <option value="Testing">Testing</option>
+          <option value="Readyforproduction">Ready for production</option>
+          {/* Add other issue type options */}
         </select>
 
         <label htmlFor="issueType">Issue Type:</label>
@@ -111,6 +125,8 @@ const CreateTicketModal = ({ isOpen, onClose, onSubmit }) => {
           onChange={(e) => setPriority(e.target.value)}
         >
           <option value="Minor">Minor</option>
+          <option value="Critical">Critical</option>
+          <option value="Important">Important</option>
           {/* Add other priority options */}
         </select>
 

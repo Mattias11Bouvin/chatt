@@ -7,11 +7,15 @@ const TaskDetailModal = ({ isOpen, onClose, task }) => (
     onRequestClose={onClose}
     contentLabel="Task Detail Modal"
   >
-    <h2>{task.content}</h2>
-    <p>Type: {task.type}</p>
+    {task && (
+      <>
+        <h2>{task.content}</h2>
+        <p>Type: {task.type}</p>
 
-    {/* Add any additional task details here */}
-
+        {/* Add any additional task details here */}
+      </>
+    )}
+    
     <button onClick={onClose}>Close</button>
   </Modal>
 );
