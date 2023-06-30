@@ -16,49 +16,6 @@ header {
 h1 {
   font-size: 2.5em;
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-section {
-  background-color: #f4ede4;
-  padding: 20px;
-}
-
-.section-right,
-.section-left {
-  text-align: center;
-}
-
-@media screen and (min-width: 768px) {
-  .section-right {
-    text-align: right;
-  }
-
-  .section-left {
-    text-align: left;
-  }
-}
-
-h2 {
-  font-family: Slack-Larsseit, "Helvetica Neue", Helvetica, "Segoe UI", Tahoma,
-    Arial, sans-serif;
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.8px;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  font-size: 1.2em;
-  line-height: 1.6;
-}
-
-a {
-  color: #611f69;
-}
 
 footer {
   background-color: #611f69;

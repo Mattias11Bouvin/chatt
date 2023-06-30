@@ -33,7 +33,7 @@ const Navbar = () => {
     <nav>
       <ul>
         <li>
-          <img src={logo} alt="Logo" />
+        <p>WorkSync</p>
         </li>
         <li>
           <div className="dropdown">

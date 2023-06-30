@@ -1,3 +1,6 @@
+body {
+  position: relative;
+}
 header {
   background-color: #4a154b;
   color: white;
@@ -125,12 +128,11 @@ img {
   color: white;
   font-family: Slack-Circular-Pro, "Helvetica Neue", Helvetica, "Segoe UI",
     Tahoma, Arial, sans-serif;
-      margin-right: 50px;
+  margin-right: 50px;
 }
 
 #srch {
   background-color: transparent !important;
-  
 }
 
 .hp {

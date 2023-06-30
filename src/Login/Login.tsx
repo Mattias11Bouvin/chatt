@@ -22,13 +22,16 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(() => ({
   container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    height: "100vh",
     display: "flex",
     flexWrap: "wrap",
-    width: 400,
-    margin: "0 auto",
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh'
+    alignItems: "center",
+    justifyContent: "center",
   },
   loginBtn: {
     marginTop: "1rem",

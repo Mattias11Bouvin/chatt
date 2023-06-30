@@ -1,0 +1,29 @@
+.dropdownContainer {
+    position: absolute;
+    top: 120px;
+    font-size: 30px;
+    right: 99%;
+  }
+  
+  .addChannel {
+    display: flex;
+    align-items: center;
+    padding: 22px;
+    cursor: pointer;
+    position: absolute;
+  }
+  
+  .addChannelIcon {
+    margin-right: 5px;
+  }
+  
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hashtag-icon-container {
+    top: 260px;
+  }
+  

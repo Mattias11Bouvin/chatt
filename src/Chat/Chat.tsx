@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import ChatWindow from "./ChatWindow";
 import Channels from "../Channel/Channels";
 import "./Chat.css";
-import { FaComments, FaTasks } from "react-icons/fa";
+import { FaComments, FaTasks, FaQuestionCircle,FaFileAlt, FaCalendar   } from "react-icons/fa";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -14,7 +14,7 @@ const Chat = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [channels, setChannels] = useState([]);
-  const [showChatList, setShowChatList] = useState(false);
+  
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -56,33 +56,45 @@ const Chat = () => {
   return (
     <div className="chat-container">
       <div className="user-list">
-        <h1>Welcome, {userEmail}</h1>
-        <Channels channels={[]} onAddChannel={handleAddChannel} />
-        <Link
-          to="/Taskboard"
-          style={{
-            color: "white",
-            position: "absolute",
-            top: "180px",
-            fontSize: "30px",
-          }}
-        >
-          <FaTasks className="task-icon" />
-        </Link>
+        <h4>Welcome, {userEmail}</h4>
+        <div className="icon-container task-icon-container">
+          <Link to="/Taskboard" className="icon">
+            <FaTasks className="task-icon" />
+          </Link>
+          <div className="icon-text">Board</div>
+        </div>
+        <div className="icon-container calendar-icon-container">
+          <Link to="/Calendar" className="icon">
+            <FaCalendar className="calendar-icon" />
+          </Link>
+          <div className="icon-text">Calendar</div>
+        </div>
+        <div className="icon-container faq-icon-container">
+          <Link to="/Faq" className="icon">
+            <FaQuestionCircle className="task-icon" />
+          </Link>
+          <div className="icon-text">Faq</div>
+        </div>
+        <div className="icon-container document-icon-container">
+          <Link to="/Document" className="icon">
+            <FaFileAlt className="document-icon" />
+          </Link>
+          <div className="icon-text">Document</div>
+        </div>
 
-        <FaComments
-          style={{
-            color: "white",
-            position: "absolute",
-            top: "220px",
-            fontSize: "30px",
-            cursor: 'pointer'
-          }}
+        <div
+          className="icon-container chat-icon-container"
           onClick={handleDropdownToggle}
-        />
+        >
+          <FaComments className="icon" />
+          <div className="icon-text">Chat</div>
+        </div>
+
+        <Channels channels={[]} onAddChannel={handleAddChannel} />
+        
 
         {isDropdownOpen && (
-          <ul className={`chat-list ${selectedUser ? 'hidden' : ''}`}>
+          <ul className={`chat-list ${selectedUser ? "hidden" : ""}`}>
             {users.map((user, index) => (
               <li className="user-list-item" key={index}>
                 <div

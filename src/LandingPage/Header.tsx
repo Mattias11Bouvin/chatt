@@ -5,7 +5,7 @@ import Navbar from "./Nav";
 
 import logo from "./assets/slack.png";
 import "./Header.css";
-import HeroSlider from "./Slider";
+import ImageSlider from "./Slider";
 
 const Header: React.FC = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -54,7 +54,8 @@ const Header: React.FC = () => {
             Sign up with Google
           </button>
         </div>
-        <p className="slack">Slack is free to try for as long as you’d like</p>
+        <p className="slack">WorkSync is free to try for as long as you’d like</p>
+        <ImageSlider />
       </div>
     </header>
   );
